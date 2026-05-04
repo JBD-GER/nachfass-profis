@@ -75,6 +75,28 @@ export function CookieBanner() {
     };
   }, [isReady]);
 
+  useEffect(() => {
+    if (!isReady) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    const previousTouchAction = document.body.style.touchAction;
+
+    if (isVisible) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.touchAction = previousTouchAction;
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.touchAction = previousTouchAction;
+    };
+  }, [isReady, isVisible]);
+
   function updateChoice(key) {
     setChoices((currentState) => ({
       ...currentState,
@@ -115,82 +137,94 @@ export function CookieBanner() {
   }
 
   return (
-    <aside
-      className="cookie-banner"
-      aria-label="Cookie- und Datenschutz-Einstellungen"
-    >
-      <div className="cookie-banner-copy">
-        <p className="cookie-banner-title">Datenschutz und Einwilligung</p>
-        <p>
-          Wir nutzen essenzielle Speicherungen für den technischen Betrieb und
-          die Verwaltung deiner Einwilligung. Statistik- und Marketing-Tracking
-          bleiben standardmäßig deaktiviert und werden erst nach ausdrücklicher
-          Auswahl aktiviert.
-        </p>
-      </div>
+    <div className="cookie-modal" aria-hidden="false">
+      <div className="cookie-backdrop" />
 
-      <div className="cookie-banner-inline-actions">
-        <button
-          className="text-button"
-          type="button"
-          onClick={() => setIsSettingsOpen((currentState) => !currentState)}
-        >
-          {isSettingsOpen ? "Einstellungen schließen" : "Einstellungen anpassen"}
-        </button>
-        <Link className="text-button" href="/datenschutz">
-          Datenschutzerklärung
-        </Link>
-      </div>
-
-      {isSettingsOpen ? (
-        <div className="consent-settings">
-          <ConsentToggle
-            checked
-            disabled
-            label="Essenziell"
-            description="Erforderlich für die Seitendarstellung, die Sicherheit und das Merken deiner Einwilligungsentscheidung."
-          />
-
-          <ConsentToggle
-            checked={choices.statistics}
-            label="Statistik"
-            description="Kann für Conversion-Messung, Reichweitenanalyse oder Funnel-Auswertung genutzt werden. Bleibt bis zur aktiven Zustimmung deaktiviert."
-            onChange={() => updateChoice("statistics")}
-          />
-
-          <ConsentToggle
-            checked={choices.marketing}
-            label="Marketing"
-            description="Kann für Retargeting, Werbeplattformen oder kampagnenbezogenes Conversion-Tracking freigegeben werden."
-            onChange={() => updateChoice("marketing")}
-          />
-
-          <p className="consent-note">
-            Deine Auswahl kann später jederzeit über den Link
-            „Cookie-Einstellungen“ im Footer geändert oder widerrufen werden.
+      <aside
+        className="cookie-banner"
+        aria-label="Cookie- und Datenschutz-Einstellungen"
+        aria-modal="true"
+        role="dialog"
+      >
+        <div className="cookie-banner-copy">
+          <p className="cookie-banner-title">Datenschutz und Einwilligung</p>
+          <p>
+            Wir nutzen essenzielle Speicherungen für den technischen Betrieb und
+            die Verwaltung deiner Einwilligung. Statistik- und
+            Marketing-Tracking bleiben standardmäßig deaktiviert und werden erst
+            nach ausdrücklicher Auswahl aktiviert.
           </p>
         </div>
-      ) : null}
 
-      <div className="cookie-banner-actions">
-        <button
-          className="button button-secondary"
-          type="button"
-          onClick={acceptEssentialOnly}
-        >
-          Nur essenzielle
-        </button>
-        <button
-          className="button button-secondary"
-          type="button"
-          onClick={saveSelected}
-        >
-          Auswahl speichern
-        </button>
-        <button className="button button-primary" type="button" onClick={acceptAll}>
-          Alle akzeptieren
-        </button>
-      </div>
-    </aside>
+        <div className="cookie-banner-inline-actions">
+          <button
+            className="text-button"
+            type="button"
+            onClick={() => setIsSettingsOpen((currentState) => !currentState)}
+          >
+            {isSettingsOpen
+              ? "Einstellungen schließen"
+              : "Einstellungen anpassen"}
+          </button>
+          <Link className="text-button" href="/datenschutz">
+            Datenschutzerklärung
+          </Link>
+        </div>
+
+        {isSettingsOpen ? (
+          <div className="consent-settings">
+            <ConsentToggle
+              checked
+              disabled
+              label="Essenziell"
+              description="Erforderlich für die Seitendarstellung, die Sicherheit und das Merken deiner Einwilligungsentscheidung."
+            />
+
+            <ConsentToggle
+              checked={choices.statistics}
+              label="Statistik"
+              description="Kann für Conversion-Messung, Reichweitenanalyse oder Funnel-Auswertung genutzt werden. Bleibt bis zur aktiven Zustimmung deaktiviert."
+              onChange={() => updateChoice("statistics")}
+            />
+
+            <ConsentToggle
+              checked={choices.marketing}
+              label="Marketing"
+              description="Kann für Retargeting, Werbeplattformen oder kampagnenbezogenes Conversion-Tracking freigegeben werden."
+              onChange={() => updateChoice("marketing")}
+            />
+
+            <p className="consent-note">
+              Deine Auswahl kann später jederzeit über den Link
+              „Cookie-Einstellungen“ im Footer geändert oder widerrufen werden.
+            </p>
+          </div>
+        ) : null}
+
+        <div className="cookie-banner-actions">
+          <button
+            className="button button-secondary"
+            type="button"
+            onClick={acceptEssentialOnly}
+          >
+            Nur essenzielle
+          </button>
+          <button
+            className="button button-secondary"
+            type="button"
+            onClick={saveSelected}
+          >
+            Auswahl speichern
+          </button>
+          <button
+            className="button button-primary"
+            type="button"
+            onClick={acceptAll}
+          >
+            Alle akzeptieren
+          </button>
+        </div>
+      </aside>
+    </div>
   );
 }

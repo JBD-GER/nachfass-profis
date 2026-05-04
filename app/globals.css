@@ -1406,15 +1406,33 @@ main [id] {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.cookie-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.cookie-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 8, 13, 0.72);
+  backdrop-filter: blur(8px) grayscale(0.35);
+}
+
 .cookie-banner {
   position: fixed;
   left: 50%;
-  bottom: 1rem;
-  z-index: 30;
+  top: 50%;
+  z-index: 61;
   display: grid;
   gap: 1rem;
-  width: min(calc(100% - 1rem), 54rem);
-  padding: 1rem;
+  width: min(calc(100% - 2rem), 46rem);
+  max-height: min(88vh, 48rem);
+  overflow: auto;
+  padding: 1.15rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
   background:
@@ -1422,7 +1440,7 @@ main [id] {
     var(--surface-strong);
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(16px);
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .cookie-banner-title {
@@ -1696,8 +1714,17 @@ main [id] {
 
 @media (max-width: 959px) {
   .site-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    min-height: 0;
+    margin-top: 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 0.7rem) 1rem 0.9rem;
+    border-radius: 0 0 28px 28px;
+    border-left: 0;
+    border-right: 0;
     flex-wrap: wrap;
-    row-gap: 0.85rem;
+    row-gap: 0.75rem;
   }
 
   .main-nav {
@@ -1714,8 +1741,12 @@ main [id] {
     white-space: nowrap;
   }
 
-  .cookie-banner {
-    bottom: 5.7rem;
+  .button-header {
+    margin-left: auto;
+  }
+
+  .site-header.is-scrolled {
+    transform: none;
   }
 
   .graph-x-axis {
@@ -1725,8 +1756,7 @@ main [id] {
 
 @media (max-width: 640px) {
   .site-header {
-    width: min(calc(100% - 1rem), var(--max-width));
-    padding: 0.85rem 0.9rem;
+    padding-inline: 0.85rem;
   }
 
   .brand-logo-image {
@@ -1787,6 +1817,16 @@ main [id] {
 
   .legal-page {
     padding-top: 1.5rem;
+  }
+
+  .cookie-modal {
+    padding: 0.85rem;
+  }
+
+  .cookie-banner {
+    width: min(calc(100% - 1.7rem), 46rem);
+    padding: 1rem;
+    border-radius: 22px;
   }
 }
 
