@@ -38,11 +38,10 @@ export default function LeistungenPage() {
       <section className="section packages-section">
         <div className="section-heading reveal">
           <p className="eyebrow">Pakete</p>
-          <h2>Die passende Stufe richtet sich nach Volumen und Taktung.</h2>
+          <h2>Pakete im Überblick</h2>
           <p>
-            Als klare Orientierung gilt meist: Starter bis etwa 10 Angebote pro
-            Monat, Standard bei ungefähr 10 bis 20 und Wachstum ab mehr als 20
-            Angeboten pro Monat.
+            Persönliche Angebotsnachfassung für mehr Rückmeldung, mehr
+            Struktur und mehr Abschlüsse.
           </p>
         </div>
 

@@ -1,10 +1,9 @@
+import type { Metadata } from "next";
 import { Manrope, Space_Grotesk } from "next/font/google";
+import type { ReactNode } from "react";
 
-import { ClientEffects } from "../components/client-effects";
-import { CookieBanner } from "../components/cookie-banner";
-import { SiteFooter } from "../components/site-footer";
-import { SiteHeader } from "../components/site-header";
-import { createAbsoluteUrl, getSiteUrl, siteConfig } from "../lib/site";
+import { AppShell } from "@/components/app-shell";
+import { createAbsoluteUrl, getSiteUrl, siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
@@ -20,11 +19,11 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
   title: {
-    default: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfrass-Profis",
-    template: "%s | Nachfrass-Profis",
+    default: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfass-Profis",
+    template: "%s | Nachfass-Profis",
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
@@ -49,7 +48,7 @@ export const metadata = {
     apple: "/Nachfass_favi.png",
   },
   openGraph: {
-    title: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfrass-Profis",
+    title: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfass-Profis",
     description: siteConfig.description,
     url: siteConfig.siteUrl,
     siteName: siteConfig.name,
@@ -60,13 +59,13 @@ export const metadata = {
         url: createAbsoluteUrl(siteConfig.socialImage),
         width: 1448,
         height: 1086,
-        alt: "Team von Nachfrass-Profis",
+        alt: "Team von Nachfass-Profis",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfrass-Profis",
+    title: "Persönliche Angebotsnachfassung für mehr Conversion | Nachfass-Profis",
     description: siteConfig.description,
     images: [createAbsoluteUrl(siteConfig.socialImage)],
   },
@@ -83,26 +82,18 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: ReactNode;
+}>) {
   return (
     <html
       lang="de"
       className={`${manrope.variable} ${spaceGrotesk.variable}`}
     >
       <body>
-        <div className="background-orb orb-1" />
-        <div className="background-orb orb-2" />
-        <div className="background-grid" />
-
-        <a className="skip-link" href="#main-content">
-          Direkt zum Inhalt
-        </a>
-
-        <SiteHeader />
-        {children}
-        <SiteFooter />
-        <CookieBanner />
-        <ClientEffects />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

@@ -6,39 +6,36 @@ export function PackageGrid({ packages }) {
           className={`package-card reveal${item.featured ? " featured" : ""}`}
           key={item.title}
         >
-          {item.featured ? (
-            <div className="featured-ribbon">Meistgewählt</div>
-          ) : null}
-
-          <div className="package-head">
-            <div>
+          <div className="package-shell">
+            <div className="package-copy">
               <p className="package-kicker">{item.kicker}</p>
               <h3>{item.title}</h3>
+
+              <dl className="package-facts">
+                <div className="package-fact">
+                  <dt>Enthalten:</dt>
+                  <dd>{item.included}</dd>
+                </div>
+                <div className="package-fact">
+                  <dt>Provision:</dt>
+                  <dd>{item.commission}</dd>
+                </div>
+                <div className="package-fact">
+                  <dt>Mindestlaufzeit:</dt>
+                  <dd>{item.minimumTerm}</dd>
+                </div>
+              </dl>
             </div>
-            {!item.featured ? (
-              <span className="package-badge">{item.badge}</span>
-            ) : null}
+
+            <div className="package-side">
+              <span
+                className={`package-badge${item.featured ? " package-badge-featured" : ""}`}
+              >
+                {item.badge}
+              </span>
+              <p className="package-side-copy">{item.description}</p>
+            </div>
           </div>
-
-          <p className="package-volume">{item.volume}</p>
-          <p className="package-summary">{item.summary}</p>
-
-          <div className="package-meta">
-            <div className="package-meta-item">
-              <span className="package-meta-label">Sinnvoll wenn</span>
-              <strong>{item.fit}</strong>
-            </div>
-            <div className="package-meta-item">
-              <span className="package-meta-label">Fokus</span>
-              <strong>{item.focus}</strong>
-            </div>
-          </div>
-
-          <ul className="detail-list">
-            {item.details.map((detail) => (
-              <li key={detail}>{detail}</li>
-            ))}
-          </ul>
         </article>
       ))}
     </div>
